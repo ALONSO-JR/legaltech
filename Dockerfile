@@ -56,7 +56,7 @@ COPY --chown=legaltech:legaltech app/requirements.txt .
 
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
-    python -m spacy download es_core_news_sm
+    python -m spacy download es_core_news_lg
 
 # ==============================
 # Crear directorios necesarios

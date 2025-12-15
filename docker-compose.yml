@@ -55,9 +55,7 @@ services:
     restart: unless-stopped
     networks:
       - legaltech-network
-    depends_on:
-      legaltech-dashboard:
-        condition: service_healthy
+    # --- AQUÍ ESTABA EL ERROR: SE ELIMINÓ EL BLOQUE 'depends_on' ---
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/salud"]
       interval: 30s
@@ -97,7 +95,7 @@ services:
               # Aquí se implementaría la lógica de cola de trabajos
           
           time.sleep(10)
-    "
+      "
     restart: unless-stopped
     networks:
       - legaltech-network
