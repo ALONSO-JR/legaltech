@@ -1,0 +1,9 @@
+# LegalTech Suite específico
+temp/                    # Directorio temporal
+resultados/             # Resultados de procesamiento
+logs/                   # Logs del sistema
+data/                   # Datos de aprendizaje
+*.pdf                   # Documentos PDF
+*.docx                  # Documentos Word
+legaltech.log           # Log principal
+dataset_aprendizaje.json # Dataset de aprendizaje
