@@ -1,0 +1,275 @@
+# Configuración LegalTech Suite V4.0
+legaltech:
+  # Configuración general
+  nombre: "Suite LegalTech V4.0"
+  version: "4.0.0"
+  entorno: "produccion"  # desarrollo, staging, produccion
+  
+  # Configuración de procesamiento
+  procesamiento:
+    chunk_size: 500000
+    max_file_size_mb: 100
+    modo_default: "revision"  # revision, final
+    timeout_segundos: 300
+    paginas_por_lote: 50
+    
+  # Configuración de validación
+  validacion:
+    rut:
+      estricto: true
+      validar_dv: true
+      formato_salida: "con_puntos"
+      rango_minimo: 1000000
+      rango_maximo: 99999999
+    
+    contexto:
+      habilitado: true
+      ventana_caracteres: 100
+      
+    confianza_minima: 0.7
+    revalidar_falsos_positivos: true
+    
+    patrones:
+      rut: '\b\d{1,2}\.?\d{3}\.?\d{3}-?[0-9kK]\b'
+      email: '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+      telefono: '(?:\+56\s?)?(?:9\s?\d{4}\s?\d{4}|2\s?\d{4}\s?\d{4}|[1-9]\d{1}\s?\d{3}\s?\d{4})'
+      uf: 'UF\s?[\d,.]+'
+      moneda: '(?:\$|US\$|USD|€)\s?[\d,.]+'
+  
+  # Whitelist de autoridades chilenas
+  whitelist:
+    instituciones:
+      - "Corte Suprema"
+      - "Corte de Apelaciones"
+      - "Ministerio Público"
+      - "Comisión para el Mercado Financiero"
+      - "Servicio de Impuestos Internos"
+      - "Banco Central"
+      - "Municipalidad"
+      - "Gobierno de Chile"
+      - "República de Chile"
+    
+    cargos:
+      - "Juez"
+      - "Fiscal"
+      - "Ministro"
+      - "Notario"
+      - "Secretario"
+      - "Abogado"
+      - "Presidente"
+      - "Director"
+      - "Comisionado"
+      - "Magistrado"
+    
+    nombres:
+      - "Gabriel Boric"
+      - "Sebastián Piñera"
+      - "Michelle Bachelet"
+      - "Ricardo Lagos"
+      - "Augusto Pinochet"
+      - "Patricio Aylwin"
+      - "Eduardo Frei"
+  
+  # Configuración de OCR
+  ocr:
+    habilitado: true
+    idioma: "spa"
+    forzar_ocr: false
+    calidad: "alta"  # baja, media, alta
+    engine: "tesseract"
+    
+  # Configuración de reportes
+  reportes:
+    formatos:
+      - "pdf"
+      - "csv"
+      - "json"
+    
+    contenido:
+      incluir_graficos: true
+      incluir_mapa: true
+      incluir_estadisticas: true
+      incluir_logo: true
+      
+    idioma: "es"
+    estilo: "profesional"  # simple, profesional, ejecutivo
+    
+    templates:
+      ejecutivo: "templates/reporte_ejecutivo.html"
+      tecnico: "templates/reporte_tecnico.html"
+      auditoria: "templates/reporte_auditoria.html"
+    
+  # Configuración de seguridad
+  seguridad:
+    limpiar_metadatos: true
+    eliminar_temporales: true
+    hash_verificacion: true
+    max_intentos: 3
+    cifrado_archivos: false
+    
+  # Configuración de API
+  api:
+    host: "0.0.0.0"
+    port: 8000
+    debug: false
+    cors_origins: ["*"]
+    
+    rate_limiting:
+      habilitado: true
+      max_requests: 100
+      periodo_minutos: 60
+    
+    autenticacion:
+      habilitada: false
+      metodo: "api_key"  # api_key, jwt, oauth2
+      api_key_header: "X-API-Key"
+      
+    swagger:
+      enabled: true
+      title: "LegalTech Suite API"
+      description: "API de sanitización documental con IA"
+      version: "4.0.0"
+    
+  # Configuración de Streamlit
+  streamlit:
+    host: "0.0.0.0"
+    port: 8501
+    tema: "light"  # light, dark
+    cache_ttl: 3600
+    max_upload_size: 200  # MB
+    
+  # Configuración de almacenamiento
+  almacenamiento:
+    tipo: "local"  # local, s3, gcs, azure
+    
+    local:
+      directorio_temporal: "./temp"
+      directorio_resultados: "./resultados"
+      max_dias_retencion: 7
+      comprimir_resultados: true
+      
+    cloud:
+      bucket_name: ""
+      access_key: ""
+      secret_key: ""
+      region: ""
+      
+  # Configuración de logs
+  logging:
+    nivel: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    formato: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    archivo: "logs/legaltech.log"
+    max_mb: 10
+    backup_count: 5
+    rotation: "midnight"
+    
+  # Configuración de aprendizaje
+  aprendizaje:
+    habilitado: true
+    dataset_path: "./data/dataset_aprendizaje.json"
+    entrenar_cada: 100  # registros
+    modelo_path: "./data/modelo_aprendizaje.pkl"
+    tasa_aprendizaje: 0.01
+    epochs: 10
+    
+  # Configuración de monitoreo
+  monitoreo:
+    habilitado: true
+    intervalo_segundos: 60
+    
+    metricas:
+      - "tiempo_procesamiento"
+      - "precision_deteccion"
+      - "uso_memoria"
+      - "errores"
+      - "tasa_exito"
+      - "archivos_procesados"
+      
+    alertas:
+      - "error_procesamiento"
+      - "alta_tasa_error"
+      - "sistema_lento"
+      - "memoria_alta"
+      - "disco_lleno"
+      
+    dashboards:
+      prometheus: false
+      grafana: false
+      
+  # Configuración de notificaciones
+  notificaciones:
+    email:
+      habilitado: false
+      smtp_server: "smtp.gmail.com"
+      smtp_port: 587
+      smtp_user: ""
+      smtp_password: ""
+      from_email: "noreply@legaltech.cl"
+      to_emails: []
+      
+    webhook:
+      habilitado: false
+      url: ""
+      eventos: ["procesamiento_completado", "error", "alerta"]
+      
+    slack:
+      habilitado: false
+      webhook_url: ""
+      canal: "#legaltech-alertas"
+      
+  # Integraciones
+  integraciones:
+    clio:
+      habilitado: false
+      api_key: ""
+      base_url: "https://app.clio.com/api/v4"
+      
+    lextienda:
+      habilitado: false
+      api_key: ""
+      base_url: "https://api.lextienda.com"
+      
+    zoom:
+      habilitado: false
+      api_key: ""
+      base_url: "https://api.zoom.us/v2"
+      
+  # Características avanzadas
+  features:
+    contexto_cruzado: true
+    validacion_real: true
+    reportes_ejecutivos: true
+    aprendizaje_continuo: true
+    dashboard_interactivo: true
+    api_rest: true
+    docker_support: true
+    multiples_idiomas: false
+    blockchain_audit: false
+    
+  # Rendimiento
+  performance:
+    workers: 4
+    threads_per_worker: 2
+    max_concurrent_jobs: 10
+    cache_size: 1000
+    gpu_acceleration: false
+    
+  # Internacionalización
+  i18n:
+    idioma_principal: "es"
+    soporte_multilenguaje: false
+    traducciones:
+      es:
+        titulo: "Suite LegalTech"
+        descripcion: "Sistema de sanitización documental"
+      en:
+        titulo: "LegalTech Suite"
+        descripcion: "Document redaction system"
+        
+  # Backup y recuperación
+  backup:
+    habilitado: true
+    frecuencia: "daily"  # hourly, daily, weekly
+    directorio_backup: "./backups"
+    max_backups: 30
+    comprimir: true

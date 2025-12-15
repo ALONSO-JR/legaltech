@@ -1,0 +1,16 @@
+# Heroku/Railway Procfile para LegalTech Suite
+
+# API FastAPI con Uvicorn
+api: uvicorn app.api_app:app --host 0.0.0.0 --port $PORT --workers 4 --log-level info
+
+# Dashboard Streamlit
+web: streamlit run app/streamlit_app.py --server.port $PORT --server.address 0.0.0.0 --server.maxUploadSize 200 --server.enableCORS true
+
+# Worker para procesamiento asíncrono
+worker: python app/worker.py --concurrency 4 --queue default
+
+# Scheduler para tareas programadas
+scheduler: python app/scheduler.py --interval 300
+
+# Health check endpoint
+health: python -c "import sys; sys.exit(0)"
